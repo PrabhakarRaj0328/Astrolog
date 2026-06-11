@@ -4,14 +4,14 @@
   --theme-primary-hover: #2563eb;
   --theme-primary-active: #1d4ed8;
 
-  /* Neutrals */
+  /* Neutrals - Light */
   --theme-bg-light: #f8fafc;
   --theme-surface-light: #ffffff;
   --theme-text-light: #0f172a;
   --theme-text-muted-light: #64748b;
   --theme-border-light: #e2e8f0;
 
-  /* Dark Mode Neutrals */
+  /* Neutrals - Dark */
   --theme-bg-dark: #0f172a;
   --theme-surface-dark: #1e293b;
   --theme-text-dark: #f8fafc;
@@ -24,8 +24,7 @@
 
   /* Typography */
   --theme-font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  --theme-font-size-base: 16px;
-
+  
   /* Shape & Elevation */
   --theme-radius-sm: 6px;
   --theme-radius-md: 12px;
@@ -49,15 +48,19 @@
   --radius: var(--theme-radius-md);
   --shadow: var(--theme-shadow-md);
   --shadow-lg: var(--theme-shadow-lg);
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
 }
 
 /* Dark Mode Overrides */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--theme-bg-dark);
-    --surface: var(--theme-surface-dark);
-    --foreground: var(--theme-text-dark);
-    --text-muted: var(--theme-text-muted-dark);
-    --border: var(--theme-border-dark);
-  }
+[data-theme="dark"] {
+  --background: var(--theme-bg-dark);
+  --surface: var(--theme-surface-dark);
+  --foreground: var(--theme-text-dark);
+  --text-muted: var(--theme-text-muted-dark);
+  --border: var(--theme-border-dark);
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  --input-bg: #0f172a;
+  --input-border: #475569;
 }

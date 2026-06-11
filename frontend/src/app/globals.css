@@ -1,20 +1,8 @@
 @import '../styles/theme.css';
 
 /* Keyframe Animations */
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -27,27 +15,13 @@ html, body {
 
 body {
   font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  
-  /* Dynamic Animated Gradient Background */
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-  
+  background-color: var(--background);
   color: var(--foreground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   flex-direction: column;
-}
-
-/* Dark mode background override */
-@media (prefers-color-scheme: dark) {
-  body {
-    background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #172554);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-    color: var(--foreground);
-  }
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 *, *::before, *::after {
@@ -57,12 +31,12 @@ body {
 a {
   color: var(--primary);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 a:hover {
   color: var(--primary-hover);
-  text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+  text-decoration: underline;
 }
 
 button {
@@ -82,82 +56,54 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.85rem 1.75rem;
+  padding: 0.75rem 1.5rem;
   border-radius: var(--radius);
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1rem;
-  letter-spacing: 0.5px;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.2s ease;
   border: none;
   outline: none;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 300%;
-  height: 300%;
-  background: rgba(255, 255, 255, 0.1);
-  transform: translate(-50%, -50%) scale(0);
-  border-radius: 50%;
-  transition: transform 0.5s ease;
-}
-
-.btn:active::after {
-  transform: translate(-50%, -50%) scale(1);
-  transition: transform 0s;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+  background-color: var(--primary);
   color: white;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+  box-shadow: var(--shadow);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
 }
 
 .btn-secondary {
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  background-color: var(--surface);
   color: var(--foreground);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border);
 }
 
 .btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+  background-color: var(--background);
 }
 
-/* Glassmorphism Card */
+/* Standard Card */
 .card {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
   padding: 2.5rem;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  animation: fadeIn 0.6s ease-out forwards;
-}
-
-@media (prefers-color-scheme: dark) {
-  .card {
-    background: rgba(15, 23, 42, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-  }
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  animation: fadeIn 0.4s ease-out forwards;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Form Styles */
@@ -166,48 +112,28 @@ button {
   flex-direction: column;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
-  position: relative;
 }
 
 .form-label {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 0.9rem;
   color: var(--foreground);
-  letter-spacing: 0.5px;
-  margin-left: 0.25rem;
 }
 
 .form-input {
-  padding: 1rem 1.25rem;
+  padding: 0.75rem 1rem;
   border-radius: var(--radius);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.5);
-  color: var(--text-light); /* Enforce dark text in light mode for contrast */
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
+  color: var(--foreground);
   font-size: 1rem;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(5px);
-}
-
-@media (prefers-color-scheme: dark) {
-  .form-input {
-    background: rgba(0, 0, 0, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-dark);
-  }
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-input:focus {
   outline: none;
   border-color: var(--primary);
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
-  transform: scale(1.02);
-}
-
-@media (prefers-color-scheme: dark) {
-  .form-input:focus {
-    background: rgba(15, 23, 42, 0.8);
-  }
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .text-center { text-align: center; }
@@ -225,14 +151,11 @@ button {
   font-size: 0.875rem;
   margin-top: 0.25rem;
   font-weight: 500;
-  animation: fadeIn 0.3s ease;
 }
 
 h1 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--primary), #8b5cf6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--foreground);
   margin-bottom: 1.5rem;
 }
