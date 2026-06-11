@@ -1,0 +1,63 @@
+:root {
+  /* Core Theme Colors */
+  --theme-primary: #3b82f6;        /* Modern Blue */
+  --theme-primary-hover: #2563eb;
+  --theme-primary-active: #1d4ed8;
+
+  /* Neutrals */
+  --theme-bg-light: #f8fafc;
+  --theme-surface-light: #ffffff;
+  --theme-text-light: #0f172a;
+  --theme-text-muted-light: #64748b;
+  --theme-border-light: #e2e8f0;
+
+  /* Dark Mode Neutrals */
+  --theme-bg-dark: #0f172a;
+  --theme-surface-dark: #1e293b;
+  --theme-text-dark: #f8fafc;
+  --theme-text-muted-dark: #94a3b8;
+  --theme-border-dark: #334155;
+
+  /* Feedback Colors */
+  --theme-error: #ef4444;
+  --theme-success: #10b981;
+
+  /* Typography */
+  --theme-font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --theme-font-size-base: 16px;
+
+  /* Shape & Elevation */
+  --theme-radius-sm: 6px;
+  --theme-radius-md: 12px;
+  --theme-radius-lg: 24px;
+  
+  --theme-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --theme-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --theme-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Default mapping for Light Mode */
+:root {
+  --background: var(--theme-bg-light);
+  --surface: var(--theme-surface-light);
+  --foreground: var(--theme-text-light);
+  --text-muted: var(--theme-text-muted-light);
+  --border: var(--theme-border-light);
+  --primary: var(--theme-primary);
+  --primary-hover: var(--theme-primary-hover);
+  --error: var(--theme-error);
+  --radius: var(--theme-radius-md);
+  --shadow: var(--theme-shadow-md);
+  --shadow-lg: var(--theme-shadow-lg);
+}
+
+/* Dark Mode Overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--theme-bg-dark);
+    --surface: var(--theme-surface-dark);
+    --foreground: var(--theme-text-dark);
+    --text-muted: var(--theme-text-muted-dark);
+    --border: var(--theme-border-dark);
+  }
+}

@@ -1,39 +1,32 @@
 import { NextResponse } from "next/server";
-import { encrypt } from "@/lib/auth";
-import { cookies } from "next/headers";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 export async function POST(request: Request) {
   try {
     const { mobile, otp } = await request.json();
 
-    if (!mobile || !otp) {
-      return NextResponse.json({ error: "Mobile number and OTP are required" }, { status: 400 });
-    }
-
-    // Mock OTP Verification Logic:
-    // "123456" -> Normal User
-    // "654321" -> Admin
-    let role = "";
-    if (otp === "123456") {
-      role = "user";
-    } else if (otp === "654321") {
-      role = "admin";
-    } else {
-      return NextResponse.json({ error: "Invalid OTP" }, { status: 401 });
-    }
-
-    const expires = new Date(Date.now() + 2 * 60 * 60 * 1000); // 2 hours
-    const sessionToken = await encrypt({ mobile, role, expires });
-
-    (await cookies()).set("session", sessionToken, {
-      expires,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
+    const response = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mobile, otp }),
     });
 
-    return NextResponse.json({ message: "Login successful", role }, { status: 200 });
+    const data = await response.json();
+
+    if (!response.ok) {
+      return NextResponse.json({ error: data.detail || "Invalid OTP" }, { status: response.status });
+    }
+
+    const nextResponse = NextResponse.json(data, { status: 200 });
+    
+    // Forward the Set-Cookie header from FastAPI
+    const setCookieHeader = response.headers.get("Set-Cookie");
+    if (setCookieHeader) {
+      nextResponse.headers.set("Set-Cookie", setCookieHeader);
+    }
+
+    return nextResponse;
   } catch (error) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }

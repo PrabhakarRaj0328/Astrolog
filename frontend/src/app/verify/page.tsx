@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { api } from "@/lib/api";
 
 function VerifyForm() {
   const [otp, setOtp] = useState("");
@@ -28,25 +29,14 @@ function VerifyForm() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/auth/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mobile, otp }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        if (data.role === "admin") {
-          router.push("/admin");
-        } else {
-          router.push("/dashboard");
-        }
+      const data = await api.verifyOtp(mobile, otp);
+      if (data.role === "admin") {
+        router.push("/admin");
       } else {
-        const data = await res.json();
-        setError(data.error || "Invalid OTP.");
+        router.push("/dashboard");
       }
-    } catch (err) {
-      setError("An unexpected error occurred.");
+    } catch (err: any) {
+      setError(err.message || "An unexpected error occurred.");
     } finally {
       setLoading(false);
     }

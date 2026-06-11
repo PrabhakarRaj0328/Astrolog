@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { api } from "@/lib/api";
 
 export default function LoginPage() {
   const [mobile, setMobile] = useState("");
@@ -21,21 +22,11 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mobile }),
-      });
-
-      if (res.ok) {
-        // Redirect to verify page with mobile number as a query param
-        router.push(`/verify?mobile=${encodeURIComponent(mobile)}`);
-      } else {
-        const data = await res.json();
-        setError(data.error || "Failed to send OTP.");
-      }
-    } catch (err) {
-      setError("An unexpected error occurred.");
+      await api.sendOtp(mobile);
+      // Redirect to verify page with mobile number as a query param
+      router.push(`/verify?mobile=${encodeURIComponent(mobile)}`);
+    } catch (err: any) {
+      setError(err.message || "An unexpected error occurred.");
     } finally {
       setLoading(false);
     }

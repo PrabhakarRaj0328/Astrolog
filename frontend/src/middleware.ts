@@ -29,23 +29,17 @@ export async function middleware(request: NextRequest) {
 
   // Role-based access control for /admin
   if (isAdminRoute && session?.role !== "admin") {
-    // If not admin, redirect to normal dashboard or another error page
+    // If not admin, redirect to normal dashboard
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // Optionally update session expiry
-  if (session) {
-    const res = await updateSession(request);
-    if (res) {
-      // Create a response to forward the request and set the updated cookie
-      const response = NextResponse.next();
-      const cookieHeader = res.headers.get("Set-Cookie");
-      if (cookieHeader) {
-        response.headers.set("Set-Cookie", cookieHeader);
-      }
-      return response;
-    }
+  // Strict separation: Prevent admins from accessing the regular user dashboard
+  const isDashboardRoute = pathname.startsWith("/dashboard");
+  if (isDashboardRoute && session?.role === "admin") {
+    return NextResponse.redirect(new URL("/admin", request.url));
   }
+
+  // Backend manages session expiration, so we don't update it here.
 
   return NextResponse.next();
 }

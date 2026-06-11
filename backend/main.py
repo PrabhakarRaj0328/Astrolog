@@ -19,3 +19,6 @@ def read_root():
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+from routers.auth import router as auth_router
+app.include_router(auth_router)
